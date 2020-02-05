@@ -1,0 +1,417 @@
+#NOSSAS BIBLIOTECAS
+from pylab import *
+
+#BIBLIOTECAS NATIVAS
+from tkinter import *
+from tkinter import messagebox
+from tkinter.ttk import Combobox
+import tkinter as tk
+import math
+import matplotlib.pyplot as plt
+
+#JANELA PRINCIPAL E CAIXAS DE ENTRADA DE DADOS
+janela = Tk() 
+janela.title("Solar Cariri Simulator")
+janela.geometry('1000x560+300+0')
+janela.resizable(width=False, height=False)
+photo = PhotoImage(file = r'bg.png')
+bgimage = Label(janela, image=photo).pack()
+ed_nome = Entry(janela, width=60, bd='4')
+ed_nome.place(x=315, y=205)
+ed_nome.focus()
+ed_email = Entry(janela, width=26, bd='4')
+ed_email.place(x=315, y=265)
+ed_tel = Entry(janela, width=26, bd='4')
+ed_tel.place(x=520, y=265)
+ed_cidade = Entry(janela, width=26, bd='3')
+ed_cidade.place(x=522, y=328)
+estados = ['Acre (AC)', 'Alagoas (AL)', 'Amapá (AP)', 'Amazonas (AM)', 'Bahia (BA)', 'Ceará (CE)', 'Distrito Federal (DF)', 'Espírito Santo (ES)', 'Goiás (GO)', 'Maranhão (MA)', 'Mato Grosso (MT)', 'Mato Grosso do Sul (MS)', 'Minas Gerais (MG)', 'Pará (PA)', 'Paraíba (PB)', 'Paraná (PR)', 'Pernambuco (PE)', 'Piauí (PI)', 'Rio de Janeiro (RJ)', 'Rio Grande do Norte (RN)', 'Rio Grande do Sul (RS)', 'Rondônia (RO)', 'Roraima (RR)', 'Santa Catarina (SC)', 'São Paulo (SP)', 'Sergipe (SE)', 'Tocantins (TO)']
+estados = Combobox(janela, values=estados, width=24, state='readonly')
+estados.current(5)
+estados.place(x=315, y=328)
+ed_valorconta = Entry(janela, width=12, bd='4')
+ed_valorconta.place(x=457, y=382)
+ptplaca = [280,320,330,340,360]
+ptplaca = Combobox(janela, values=ptplaca, width=8, state='readonly')
+ptplaca.current(2)
+ptplaca.place(x=865, y=486)
+
+#ALTERA A POTÊNCIA DA PLACA
+def pt_placa(): 
+    potplaca = (ptplaca.get())
+    messagebox.showinfo('Solar Cariri Simulator','Dado Alterado com Sucesso!!')
+bt_potplaca = Button(janela, text='OK', width=3, cursor='hand2', bg='#E6E6E6', bd='3', command=pt_placa).place(x=884, y=514)
+
+#MENU DE INFORMAÇÕES
+def menu_info(): 
+    janela_informacao = Toplevel()
+    janela_informacao.title("Solar Cariri Simulator")
+    janela_informacao.geometry('600x350+140+100')
+    janela_informacao.resizable(width=False, height=False)
+    info = PhotoImage(file = r'bg_info.png')
+    bgimginfo = Label(janela_informacao, image=info).pack()
+    def fechar():
+        janela_informacao.destroy()
+    bt_infook = Button(janela_informacao, text='OK', width=7, cursor='hand2', bg='#E6E6E6', bd='3', command=fechar).place(x=270, y=310)
+    janela_informacao.iconbitmap(r'solar_icon.ico')
+    janela_informacao.mainloop()
+    
+#CADASTRO DE CLIENTES
+def cad_cliente():
+    janela_clientes = Toplevel()
+    janela_clientes.title("Solar Cariri Simulator")
+    janela_clientes.geometry('370x350+400+200')
+    janela_clientes.resizable(width=False, height=False)
+    bg_clientes = PhotoImage(file = r'bg_clientes.png')
+    bgclientes = Label(janela_clientes, image=bg_clientes).pack()
+    def novo_cliente():
+        lista_clientes.insert(END, inserir_cliente.get())
+    def deletar_cliente():
+        lista_clientes.delete(ACTIVE)
+    def ok_salvar():
+        janela_clientes.destroy()
+    lista_clientes = Listbox(janela_clientes, width = 56, cursor='hand2')
+    lista_clientes.place(x=14, y=70)
+    clientes = ['']
+    for clientes in clientes:
+        lista_clientes.insert(END,clientes)
+    inserir_cliente=StringVar()
+    ed_ins_cliente=Entry(janela_clientes, textvariable=inserir_cliente)
+    ed_ins_cliente.place(x=150, y=242)
+    bt_cadastrar_clientes = Button(janela_clientes, text='Cadastrar', width=8, cursor='hand2', bg='#E6E6E6', bd='3', command=novo_cliente).place(x=287, y=238)
+    bt_deletar_clientes = Button(janela_clientes, text='Deletar Cliente', width=12, cursor='hand2', bg='#E6E6E6', bd='3', command=deletar_cliente).place(x=260, y=274)
+    bt_clientes_ok = Button(janela_clientes, text='OK', width=4, cursor='hand2', bg='#E6E6E6', bd='3', command=ok_salvar).place(x=170, y=310)
+    janela_clientes.iconbitmap(r'solar_icon.ico')
+    janela_clientes.mainloop()
+
+#CADOSTRO DE EMPRESAS
+def cad_empresa():
+    janela_empresas = Toplevel()
+    janela_empresas.title("Solar Cariri Simulator")
+    janela_empresas.geometry('370x350+400+200')
+    janela_empresas.resizable(width=False, height=False)
+    bg_empresas = PhotoImage(file = r'bg_empresas.png')
+    bgempresa = Label(janela_empresas, image=bg_empresas).pack()
+    def nova_empresa():
+        lista_empresas.insert(END, inserir_empresa.get())
+    def deletar_empresa():
+        lista_empresas.delete(ACTIVE)
+    def ok_salvar():
+        janela_empresas.destroy()
+    lista_empresas = Listbox(janela_empresas, width = 56, cursor='hand2')
+    lista_empresas.place(x=14, y=70)
+    #EMPRESAS CADASTRADAS
+    empresas = ['Cariri Solar', 'ESN Energia Solar', 'Fóton Engenharia', '76volts', 'Ecolare Energia Solar','ENERGSOL NE','Ative - Energia Solar','Helius Energia Solar','Gsol energia solar','Cônsol','Sol Amper','Ilumisol Juazeiro do Norte']
+    for empresas in empresas:
+        lista_empresas.insert(END,empresas)
+    inserir_empresa=StringVar()
+    ed_ins_empresa=Entry(janela_empresas, textvariable=inserir_empresa)
+    ed_ins_empresa.place(x=150, y=242)
+    bt_cadastrar_empresa = Button(janela_empresas, text='Cadastrar', width=8, cursor='hand2', bg='#E6E6E6', bd='3', command=nova_empresa).place(x=287, y=238)
+    bt_deletar_empresa = Button(janela_empresas, text='Deletar Empresa', width=12, cursor='hand2', bg='#E6E6E6', bd='3', command=deletar_empresa).place(x=260, y=274)
+    bt_empresa_ok = Button(janela_empresas, text='OK', width=4, cursor='hand2', bg='#E6E6E6', bd='3', command=ok_salvar).place(x=170, y=310)
+    janela_empresas.iconbitmap(r'solar_icon.ico')
+    janela_empresas.mainloop()
+
+#GRÁFICO DE CLIENTES POR ESTADO
+def menu_grafico():
+    contadorA = 0
+    #ESTADOS
+    estadosGrafico = ['Acre (AC)', 'Alagoas (AL)', 'Amapá (AP)', 'Amazonas (AM)', 'Bahia (BA)', 'Ceará (CE)',
+                          'Distrito Federal (DF)', 'Espírito Santo (ES)', 'Goiás (GO)', 'Maranhão (MA)',
+                          'Mato Grosso (MT)', 'Mato Grosso do Sul (MS)', 'Minas Gerais (MG)', 'Pará (PA)',
+                          'Paraíba (PB)', 'Paraná (PR)', 'Pernambuco (PE)', 'Piauí (PI)', 'Rio de Janeiro (RJ)',
+                          'Rio Grande do Norte (RN)', 'Rio Grande do Sul (RS)', 'Rondônia (RO)', 'Roraima (RR)',
+                          'Santa Catarina (SC)', 'São Paulo (SP)', 'Sergipe (SE)', 'Tocantins (TO)']
+    #Arquivos TXT dos estados
+    estadosTxt = ["AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR",
+                      "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"]
+    qntUsers = []
+    while contadorA != 27:
+        arquivoB = open(estadosTxt[contadorA] + ".txt", 'r')
+        clientesPEstado = arquivoB.readlines()
+        NumPEstado = len(clientesPEstado)
+        qntUsers.append(NumPEstado)
+        contadorA = contadorA + 1
+    plt.barh(estadosGrafico, qntUsers, color='green')
+    plt.ylabel("Estados")
+    plt.xlabel('Numero de Clientes no Estado')
+    plt.title('Indice de Clientes Cadastrados')
+    plt.show()
+
+#PARTE PRINCIPAL DOS CALCÚLOS DA SIMULAÇÃO
+def bt_simular_click():
+    nome = str(ed_nome.get())
+    cidade = str(ed_cidade.get())
+    estado = str(estados.get())
+    email = str(ed_email.get())
+    tel = str(ed_tel.get())
+    valorconta = (ed_valorconta.get())
+    potplaca = int(ptplaca.get())
+    if estado == 'Acre (AC)': 
+        taxa = 0.75
+        solpico = 5.5      #PICO DE SOL DE CADA ESTADO
+        estadoArquivo = "AC"
+    elif estado == 'Alagoas (AL)':
+        taxa = 0.75
+        solpico = 5.9
+        estadoArquivo = "AL"
+    elif estado == 'Pernambuco (PE)':
+        taxa = 0.75
+        solpico = 5.9
+        estadoArquivo = "PE"
+    elif estado == 'Goiás (GO)':
+        taxa = 0.75
+        solpico = 5.7
+        estadoArquivo = "GO"
+    elif estado == 'Sergipe (SE)':
+        taxa = 0.75
+        solpico = 5.9
+        estadoArquivo = "SE"
+    elif estado == 'Amazonas (AM)':
+        taxa = 0.87
+        solpico = 5.5
+        estadoArquivo = "AM"
+    elif estado == 'Pará (PA)':
+        taxa = 0.87
+        solpico = 5.5
+        estadoArquivo = "PA"
+    elif estado == 'Amapá (AP)':
+        taxa = 0.66
+        solpico = 5.5
+        estadoArquivo = "AP"
+    elif estado == 'Bahia (BA)':
+        taxa = 0.78
+        solpico = 5.9
+        estadoArquivo = "BA"
+    elif estado == 'Espírito Santo (ES)':
+        taxa = 0.78
+        solpico = 5.6
+        estadoArquivo = "ES"
+    elif estado == 'Ceará (CE)':
+        taxa = 0.73
+        solpico = 5.9
+        estadoArquivo = "CE"
+    elif estado == 'Paraíba (PB)':
+        taxa = 0.73
+        solpico = 5.9
+        estadoArquivo = "PB"
+    elif estado == 'Distrito Federal (DF)':
+        taxa = 0.70
+        solpico = 5.7
+        estadoArquivo = "DF"
+    elif estado == 'São Paulo (SP)':
+        taxa = 0.70
+        solpico = 5.6
+        estadoArquivo = "SP"
+    elif estado == 'Maranhão (MA)':
+        taxa = 0.84
+        solpico = 5.9
+        estadoArquivo = "MA"
+    elif estado == 'Minas Gerais (MG)':
+        taxa = 0.77
+        solpico = 5.6
+        estadoArquivo = "MG"
+    elif estado == 'Mato Grosso (MT)':
+        taxa = 0.85
+        solpico = 5.7
+        estadoArquivo = "MT"
+    elif estado == 'Piauí (PI)':
+        taxa = 0.80
+        solpico = 5.9
+        estadoArquivo = "PI"
+    elif estado == 'Tocantins (TO)':
+        taxa = 0.80
+        solpico = 5.5
+        estadoArquivo = "TO"
+    elif estado == 'Mato Grosso do Sul (MS)':
+        taxa = 0.80
+        solpico = 5.7
+        estadoArquivo = "MS"
+    elif estado == 'Paraná (PR)':
+        taxa = 0.68
+        solpico = 5
+        estadoArquivo = "PR"
+    elif estado == 'Rio de Janeiro (RJ)':
+        taxa = 0.97
+        solpico = 5.6
+        estadoArquivo = "RJ"
+    elif estado == 'Rio Grande do Norte (RN)':
+        taxa = 0.72
+        solpico = 5.9
+        estadoArquivo = "RN"
+    elif estado == 'Rondônia (RO)':
+        taxa = 0.64
+        solpico = 5.5
+        estadoArquivo = "RO"
+    elif estado == 'Roraima (RR)':
+        taxa = 0.61
+        solpico = 5.5
+        estadoArquivo = "RR"
+    elif estado == 'Rio Grande do Sul (RS)':
+        taxa = 0.61
+        solpico = 5
+        estadoArquivo = "RS"
+    elif estado == 'Santa Catarina (SC)':
+        taxa = 0.67
+        solpico = 5
+        estadoArquivo = "SC"
+    if (nome and cidade and email and tel and valorconta) =='':
+        messagebox.showwarning("Dados Inválidos", "Não podem haver campos vazios.")
+    elif tel.isnumeric() == False:
+        messagebox.showwarning("Dados Inválidos", "Campo não pode conter letras ou símbolos.")
+    elif (nome and cidade and email and tel and valorconta) !='':
+        valorconta = float(valorconta.replace(',','.'))
+        cons_kwh_mes = valorconta / taxa
+        cons_kwh_dia = cons_kwh_mes / 30
+        kwh_pico = cons_kwh_dia / solpico
+        efic_placa_total = kwh_pico / 0.85
+        kwp = efic_placa_total * 1000
+        qnt_placa = kwp / int(potplaca)
+        qnt_placa = math.ceil(qnt_placa)
+        if (qnt_placa % 2) !=0: #QUANTIDADE DE PLACAS! APENAS NÚMEROS PARES!
+            qnt_placa = qnt_placa + 1
+        peso = 0
+        valplaca = 0
+        if potplaca == 280:
+            valplaca = 529.47
+            peso = 18.2
+        elif potplaca == 320:
+            valplaca = 541.15
+            peso = 22
+        elif potplaca == 330:
+            valplaca = 556.47
+            peso = 22.5
+        elif potplaca == 340:
+            valplaca = 729.38
+            peso = 23
+        elif potplaca == 360:
+            valplaca = 808.50
+            peso = 22.5
+        peso_total = qnt_placa * peso
+        area = qnt_placa * 1.94432
+        inversor = 0
+        stringbox = 0
+        componentes = 0
+        if kwp <= 1000:
+            inversor = 921.14
+            stringbox = 793.07
+            componentes = 625.14
+        elif kwp <= 2000:
+            inversor = 2522.44
+            stringbox = 793.07
+            componentes = 856.56
+        elif kwp <= 3000:
+            inversor = 3449.15
+            stringbox = 793.07
+            componentes = 1009.4
+        elif kwp <= 4000:
+            inversor = 5119.64
+            stringbox = 793.07
+            componentes = 1249.57
+        elif kwp <= 5000:
+            inversor = 5592.48
+            stringbox = 793.07
+            componentes = 1479.55
+        elif kwp <= 6000:
+            inversor = 8079.75
+            stringbox = 793.07
+            componentes = 1698.11
+        elif kwp <= 7000:
+            inversor = 9147.40
+            stringbox = 793.07
+            componentes = 1901.35
+        elif kwp <= 8000:
+            inversor = 10546.52
+            stringbox = 793.07
+            componentes = 2158.95
+        elif kwp >= 12500 and kwp <= 19500:
+            inversor = 20224.55
+            stringbox = 1593.01
+            componentes = 2500.45
+        elif kwp <= 25000:
+            inversor = 25592.48
+            stringbox = 1993.14
+            componentes = 2854.36
+        elif kwp <= 75000:
+            inversor = 35792.38
+            stringbox = 2793.25
+            componentes = 3150.44
+        investimento = (valplaca*qnt_placa) + stringbox + componentes
+        investimento_total = (investimento * 0.10) + investimento
+        economia_mensal = (valorconta * 0.839)
+        economia_dez_anos = (economia_mensal*12) * 10
+   #JANELA COM O RESULTADO DAS OPERAÇÕES
+        janela_result = Toplevel()
+        janela_result.title("Solar Cariri Simulator")
+        janela_result.geometry('680x390+400+200')
+        janela_result.resizable(width=False, height=False)
+        photo = PhotoImage(file = r"bg_result.png")
+        bgimage_result = Label(janela_result, image=photo).pack()
+        lb_ders = Label(janela_result, text='De R$ {:.2f}\n a R$ {:.2f}'.format(investimento, investimento+(investimento*0.15)), font=('Tahoma', 15), bg='#DCDADA').place(x=90, y=116)
+        lb_economes = Label(janela_result, text='R$ {:.2f}'.format(economia_mensal), font=('Tahoma', 18), bg='#DCDADA').place(x=118, y=210)
+        lb_economia_dez_anos = Label(janela_result, text='R$ {:.2f}'.format(economia_dez_anos), font=('Tahoma', 18), bg='#DCDADA').place(x=104, y=287)
+        lb_tamanhosist = Label(janela_result, text='{:.1f}kWp'.format(kwp), font=('Tahoma', 16),  bg='#DCDADA').place(x=465, y=118)
+        lb_numodulos = Label(janela_result, text='{:.0f} Placas'.format(qnt_placa), font=('Tahoma', 16),  bg='#DCDADA').place(x=475, y=179)
+        lb_areamod = Label(janela_result, text='{:.1f} m²'.format(area), font=('Tahoma', 16),  bg='#DCDADA').place(x=478, y=232)
+        lb_pesomod = Label(janela_result, text='{:.1f} Kg'.format(peso_total), font=('Tahoma', 16), bg='#DCDADA').place(x=472, y=298)
+        def dadosEstados(estadoArquivo):
+            novoNome = nome
+            arquivo = open(estadoArquivo + ".txt", 'r')
+            listaNomes = arquivo.readlines()
+            novoNome = novoNome + "\n"
+            listaNomes.append(novoNome)
+            arquivo = open(estadoArquivo + ".txt", "w")
+            arquivo.writelines(listaNomes)
+            arquivo.close()
+        dadosEstados(estadoArquivo)
+        def recalcular_click():
+            janela_result.destroy()
+        bt_recalcular = Button(janela_result, text='Recalcular', width=10, cursor='hand2', bg='#E6E6E6', bd='3', command=recalcular_click).place(x=352, y=355)
+        def salvar_click():
+            #DADOS COMPLETOS DOS CLIENTES!
+            def dadosCompletos(Dnome, Dcidade, Demail, Dtel, Destado, Dpotplaca, Dvalorconta, Dlb_ders, Dlb_economes, Dlb_economia_dez_anos,Dlb_tamanhosist,Dlb_numodulos,Dlb_areamod,Dlb_pesomod):
+                Dtel=str(Dtel)
+                Dpotplaca=str(Dpotplaca)
+                Dvalorconta=str(Dvalorconta)
+                Dlb_ders=str(Dlb_ders)
+                Dlb_economes=str(Dlb_economes)
+                Dlb_economia_dez_anos=str(Dlb_economia_dez_anos)
+                Dlb_tamanhosist=str(Dlb_tamanhosist)
+                Dlb_numodulos=str(Dlb_numodulos)
+                Dlb_areamod=str(Dlb_areamod)
+                Dlb_pesomod=str(Dlb_pesomod)
+                arquivoB = open("DadosGerais.txt", 'r')
+                listaUsuarios = arquivoB.readlines()
+                Dfinal = Dnome + " ;; " + Dcidade + " ;; " + Demail + " ;; " + Dtel + " ;; " + Destado + " ;; " + Dpotplaca + " ;; " + Dvalorconta + " ;; " + Dlb_ders + " ;; " + Dlb_economes + " ;; " + Dlb_economia_dez_anos + " ;; " + Dlb_tamanhosist + " ;; " + Dlb_numodulos + " ;; " + Dlb_areamod + " ;; " + Dlb_pesomod +"\n"
+                listaUsuarios.append(Dfinal)
+                arquivoB = open("DadosGerais.txt", 'w')
+                arquivoB.writelines(listaUsuarios)
+                arquivoB.close()
+            dadosCompletos(nome, cidade, email, tel, estado,potplaca,valorconta,investimento, economia_mensal,economia_dez_anos,kwp,qnt_placa,area,peso_total)
+            janela_result.destroy()
+
+        bt_salvar = Button(janela_result, text='Salvar', width=10, cursor='hand2', bg='#E6E6E6', bd='3', command=salvar_click).place(x=245, y=355)
+        janela_result.iconbitmap(r'solar_icon.ico')
+        janela_result.mainloop()
+#BARRA DE MENUS
+def menu(): 
+    menubar = Menu(janela)
+    cadastro = Menu(menubar, tearoff = 0)
+    menubar.add_cascade(label ='Cadastro', menu = cadastro)     #CADASTRO
+    cadastro.add_command(label ='Clientes', command=cad_cliente)#CLIENTES
+    cadastro.add_command(label ='Empresas', command=cad_empresa)#EMPRESAS
+    grafico = Menu(menubar, tearoff = 0)
+    menubar.add_cascade(label ='Gráficos', menu = grafico)
+    grafico.add_command(label ='Gráficos', command=menu_grafico)
+    info = Menu(menubar, tearoff = 0)
+    menubar.add_cascade(label ='Informações', menu = info)
+    #ABA DE INFORMAÇÕES DO SISTEMA
+    info.add_command(label ='Informações sobre o Sistema', command=menu_info)
+    inform = Menu(menubar, tearoff = 0)
+    janela.config(menu = menubar)
+menu()
+#Botão para fazer a simulação
+bt_simular = Button(janela, text='Simular', width=12, cursor='hand2', bg='#E6E6E6', bd='3', command=bt_simular_click).place(x=450, y=418) 
+janela.iconbitmap(r'solar_icon.ico')
+janela.mainloop()
