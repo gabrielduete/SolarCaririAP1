@@ -1,4 +1,0 @@
-->Bem vindo ao meu projeto da disciplina de AP1!
-->Execute o arquivo SolarCariri Simulator.py em uma IDE e avalie nosso projeto!
-->Foi um projeto desenvolvido em 3 semanas por uma equipe iniciante, por isso n espere muito. <3
-->Thanks!
